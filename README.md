@@ -4,27 +4,27 @@ A comprehensive data pipeline and interactive dashboard for analyzing global ene
 
 ## Portfolio Project
 
-This project showcases my full-stack data engineering and visualization skills:
+I built this project to demonstrate my skills across the full data engineering and analytics stack:
 
-- **Data Acquisition**: Automated downloading of datasets from public APIs (Our World in Data, World Bank)
-- **SQL Transformation**: Designing and executing complex SQL queries to create clean subsets, perform joins, and aggregate data
-- **Python Data Processing**: Using pandas and numpy to clean, normalize, and prepare data for analysis
-- **Interactive Visualization**: Building user-friendly Streamlit dashboards with dynamic filtering and multi-metric charts
-- **Pipeline Automation**: Orchestrating the entire workflow using Makefiles for reproducibility and ease of use
+- **Data Acquisition**: Pulling datasets from public APIs (Our World in Data and World Bank) and automating the download process
+- **SQL Transformation**: Writing SQL queries to clean, subset, and join multiple data sources into a cohesive dataset
+- **Python Data Processing**: Using pandas and numpy to handle data cleaning, normalization, and preparation
+- **Interactive Visualization**: Creating a Streamlit dashboard that lets users explore the data dynamically with country filters and interactive charts
+- **Pipeline Automation**: Stitching it all together with a Makefile so the entire workflow runs smoothly and repeatably
 
 ## Overview
 
-This project provides insights into the global energy transition by integrating data from multiple sources (Our World in Data and World Bank) and visualizing key metrics through an interactive Streamlit dashboard. The dashboard allows you to explore relationships between energy consumption, renewable energy adoption, CO2 emissions, and economic growth across countries and time periods.
+Want to understand global energy trends? This project brings together energy consumption data, renewable energy adoption rates, and CO2 emissions to paint a picture of how the world is transitioning to cleaner energy. The interactive dashboard lets you dig into the data for any country and explore how energy sources, emissions, and economic growth have changed over time.
 
 ## Features
 
-- **Data Pipeline**: Automated download and ingestion of global energy, CO2, and GDP data
-- **Data Processing**: SQL-based transformations and aggregations to create clean, analysis-ready datasets
-- **Interactive Dashboard**: Streamlit-based visualization exploring:
-  - CO2 Emissions vs Renewable Energy Trends
-  - Economic Growth vs Emissions
-  - Energy Mix Transition trajectories
-- **Country-level Analysis**: Select and analyze specific countries with filtered visualizations
+- **Fully Automated Pipeline**: One command downloads data from multiple sources and processes it all the way through to visualization
+- **Clean Data**: SQL handles the heavy lifting of transformations—everything is subset, joined, and aggregated properly
+- **Interactive Dashboard**: Explore three key angles:
+  - How CO2 emissions have shifted alongside renewable energy adoption
+  - The relationship between economic growth and emissions across countries
+  - How energy sources have evolved (and are still evolving) over time
+- **Country Deep-Dives**: Pick any country from the sidebar and see its personalized trends across all visualizations
 
 ## Project Structure
 
@@ -55,86 +55,78 @@ energy_transition_dashboard/
 
 ## Getting Started
 
-### Prerequisites
+### What You'll Need
 
-- Python 3.8+
-- SQLite3
-- pip (Python package manager)
+- Python 3.8 or later
+- SQLite3 (usually comes with Python)
+- Basic familiarity with the command line
 
-### Installation
+### Quick Setup
 
 1. Clone or download this repository
 
-2. Install dependencies:
+2. Install the dependencies:
    ```bash
    make install
    ```
    
-   Or manually:
+   If you prefer not to use Make:
    ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
+## Running the Pipeline
 
-The pipeline can be run step-by-step using the Makefile commands:
+You can run each step individually or run the whole thing at once. Here's what each step does:
 
-### Step 1: Download Raw Data
+### Step 1: Download the Data
 ```bash
 make download_data
 ```
-Downloads energy, CO2, and GDP data from Our World in Data and World Bank APIs.
+Grabs energy, CO2, and GDP data from Our World in Data and World Bank.
 
-### Step 2: Ingest Data into Database
+### Step 2: Load Data into the Database
 ```bash
 make ingest
 ```
-Imports raw CSV files into SQLite database tables.
+Takes those CSV files and loads them into SQLite.
 
-### Step 3: Transform Data
+### Step 3: Clean & Transform the Data
 ```bash
 make db
 ```
-Executes SQL transformations to create clean country, CO2, and GDP subsets.
+Runs SQL queries to create clean subsets for each dataset.
 
 ```bash
 make master
 ```
-Creates a master table by joining all processed datasets.
+Joins everything together into a single master table.
 
-### Step 4: Export to Parquet
+### Step 4: Export for the Dashboard
 ```bash
 make transform
 ```
-Converts SQLite master table to Parquet format (filters data from 1950 onwards).
+Converts the database to a Parquet file (and filters for data from 1950 onwards).
 
-### Step 5: Launch Dashboard
+### Step 5: Start the Dashboard
 ```bash
 make run
 ```
-Starts the Streamlit dashboard at `http://localhost:8501`
+Fires up the Streamlit dashboard. You'll see it at `http://localhost:8501`
 
-### Quick Start (Run Everything)
-To run the complete pipeline:
+### All at Once
+If you just want to run the whole thing:
 ```bash
-make install
-make download_data
-make ingest
-make db
-make master
-make transform
-make run
+make install && make download_data && make ingest && make db && make master && make transform && make run
 ```
 
-## Dashboard Metrics
+## What's on the Dashboard
 
-The interactive dashboard provides three main analysis views:
+Pick a country from the sidebar and explore three different angles:
 
-- **CO2 Emissions vs Renewable Energy**: Dual-axis chart showing CO2 emissions trends alongside renewable energy share
-- **Economic Growth vs Emissions**: Analysis of GDP per capita relationship with carbon emissions
-- **Energy Mix Transition**: Visualization of how a country's energy sources have evolved over time
-
-Select a country from the sidebar to customize all visualizations for that region.
+- **CO2 Emissions vs Renewable Energy**: See how emissions have changed alongside the rise of renewable energy (dual-axis chart)
+- **Economic Growth vs Emissions**: Understand whether countries can grow their economy while cutting emissions
+- **Energy Mix Transition**: Watch how a country's energy sources have shifted from fossil fuels toward renewables over time
 
 ## Data Sources
 
@@ -142,18 +134,18 @@ Select a country from the sidebar to customize all visualizations for that regio
 - **CO2 Emissions**: [Our World in Data - CO2](https://owid.io/data/co2/) (owid-co2-data.csv)
 - **GDP per Capita**: [World Bank](https://ourworldindata.org/grapher/gdp-per-capita-worldbank.csv) (gdp-per-capita-worldbank.csv)
 
-## Development
+## Wanting to Explore Further?
 
-### Exploratory Analysis
+### Dig Into the Data
 
-Use the provided Jupyter notebook for data exploration and analysis:
+There's a Jupyter notebook included if you want to experiment and explore:
 ```bash
 jupyter notebook notebooks/analysis.ipynb
 ```
 
-### Cleaning Up
+### Start Over
 
-To remove downloaded data and start fresh:
+If you want to clear everything and run the pipeline fresh:
 ```bash
 make remove_data
 ```
@@ -166,8 +158,8 @@ make remove_data
 - **Data Serialization**: pyarrow (Parquet format)
 - **Analysis**: Python, SQL
 
-## Notes
+## A Few Things to Know
 
-- Data is filtered to include years from 1950 onwards in the final dataset
-- Some metrics may not be available for all countries due to data collection gaps
-- The database (`.sqlite` file) is created during the pipeline execution and is not version controlled
+- The final dataset starts from 1950—that's where the data quality really improves
+- Not every metric is available for every country. Historical data can be spotty, especially for renewable energy in earlier decades
+- The database file (`.sqlite`) gets created when you run the pipeline. It's not in version control since it's generated data
